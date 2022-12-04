@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CAPSTONE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css"
+      integrity="sha512-vebUliqxrVkBy3gucMhClmyQP9On/HAWQdKDXRaAlb/FKuTbxkjPKUyqVOxAcGwFDka79eTF+YXwfke1h3/wfg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../scss/style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="container">
+        <div class="left">
+          <a href=""><i class="las la-running"></i>thegioidichuyen</a>
+        </div>
+        <div class="right">
+          <nav>
+            <ul>
+              <li><a href="">Trang chủ</a></li>
+              <li><a href="">Tin tức</a></li>
+              <li><a href="">Khuyến mãi</a></li>
+              <li><a href="">Hỗ trợ</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="option">
+          <label>Bạn muốn tìm gì?</label>
+          <select id="type">
+            <option value="all">ALL</option>
+            <option value="Iphone">IPHONE</option>
+            <option value="Samsung">SAMSUNG</option>
+          </select>
+        </div>
+        <button id="btn-open"><i class="las la-shopping-cart"></i></button>
+      </div>
+
+      <div class="content">
+        <div id="renderproducts" class="products"></div>
+      </div>
+    </div>
+    <!-- modal -->
+    <div id="modal-container">
+      <div id="modal-demo" class="modal">
+        <div class="modal-header">
+          <h3>Giỏ Hàng</h3>
+          <button id="btn-close"><i class="las la-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <h1 id="tb">Không có sản phẩm nào trong giỏ hàng.</h1>
+          <table id="cart"></table>
+        </div>
+        <div class="modal-footer">
+          <h3>Tổng tiền: $<span id="tongtien">0</span></h3>
+          <button onclick="clearList()">Thanh toán</button>
+          <button onclick="clearList()">Xóa tất cả</button>
+        </div>
+      </div>
+    </div>
+    <!-- end modal  -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./popupmodal.js"></script>
+    <script src="../services/products.js"></script>
+    <script src="../controllers/index.js"></script>
+  </body>
+</html>
