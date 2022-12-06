@@ -30,7 +30,6 @@ const renderProductList = (data) => {
           </tr>`;
   }
   document.getElementById("tblDanhSachSP").innerHTML = html;
-  reset();
 };
 
 domId("btnThemSP").onclick = function () {
@@ -66,9 +65,11 @@ const addProduct = () => {
     alert("Thêm sản phẩm thành công");
     getProductList();
   });
+  resetModal();
 };
 
 const openUpdateModal = (id) => {
+  resetTb();
   document.querySelector(".modal-title").innerHTML = "Sửa sản phẩm";
   document.querySelector(
     ".modal-footer"
@@ -79,6 +80,10 @@ const openUpdateModal = (id) => {
     domId("GiaSP").value = response.data.price;
     domId("HinhSP").value = response.data.img;
     domId("MoTaSP").value = response.data.desc;
+    domId("camtruoc").value = response.data.frontCamera;
+    domId("camsau").value = response.data.backCamera;
+    domId("manHinhSP").value = response.data.screen;
+    domId("type").value = response.data.type;
   });
 };
 const updateProduct = (id) => {
@@ -89,8 +94,21 @@ const updateProduct = (id) => {
   let price = domId("GiaSP").value;
   let img = domId("HinhSP").value;
   let desc = domId("MoTaSP").value;
+  let frontCamera = domId("camtruoc").value;
+  let backCamera = domId("camsau").value;
+  let screen = domId("manHinhSP").value;
+  let type = domId("type").value;
 
-  let product = new Product(name, price, img, desc);
+  let product = new Product(
+    name,
+    price,
+    screen,
+    backCamera,
+    frontCamera,
+    img,
+    desc,
+    type
+  );
 
   document.querySelector(".close").click();
 
@@ -98,22 +116,32 @@ const updateProduct = (id) => {
     alert("Sửa sản phẩm thành công");
     getProductList();
   });
-  reset();
+  resetModal();
 };
 
 const deleteProduct = (id) => {
   productsService.deleteProduct(id).then(function () {
-    alert("Xoá thành công");
     getProductList();
   });
 };
-reset = () => {
+const resetModal = () => {
+  domId("TenSP").value = "";
+  domId("GiaSP").value = "";
+  domId("HinhSP").value = "";
+  domId("MoTaSP").value = "";
+  domId("camtruoc").value = "";
+  domId("camsau").value = "";
+  domId("manHinhSP").value = "";
+};
+const resetTb = () => {
+  domId("tbCamTruoc").style.display = "none";
+  domId("tbCamSau").style.display = "none";
+  domId("screenSP").style.display = "none";
   domId("nameSP").style.display = "none";
   domId("priceSP").style.display = "none";
   domId("imgSP").style.display = "none";
   domId("descSP").style.display = "none";
 };
-
 validateForm = () => {
   let productName = domId("TenSP").value;
   let productPrice = domId("GiaSP").value;
@@ -124,14 +152,10 @@ validateForm = () => {
   let screen = domId("manHinhSP").value;
 
   isValidate = true;
-  isValidate &=
-    required(productFrontCamera, "tbCamTruoc") &&
-    checkCamera(productFrontCamera, "tbCamTruoc");
+  isValidate &= required(productFrontCamera, "tbCamTruoc");
   domId("tbCamTruoc").style.display = "block";
 
-  isValidate &=
-    required(productBackCamera, "tbCamSau") &&
-    checkCamera(productBackCamera, "tbCamSau");
+  isValidate &= required(productBackCamera, "tbCamSau");
   domId("tbCamSau").style.display = "block";
 
   isValidate &= required(screen, "screenSP") && checkScreen(screen, "screenSP");
@@ -197,24 +221,15 @@ checkName = (value, spanId) => {
     "* Chỉ chấp nhận các ký tự A-z 0-9 và +";
   return !1;
 };
-checkCamera = (value, spanId) => {
-  let pattern = /^[A-z 0-9\&]+$/g;
-  if (pattern.test(value)) {
-    document.getElementById(spanId).innerHTML = "";
-    return !0;
-  }
-  document.getElementById(spanId).innerHTML =
-    "* Chỉ chấp nhận các ký tự A-z 0-9 và &";
-  return !1;
-};
+
 checkScreen = (value, spanId) => {
-  let pattern = /^[A-z 0-9]+$/g;
+  let pattern = /^[A-z 0-9\,]+$/g;
   if (pattern.test(value)) {
     document.getElementById(spanId).innerHTML = "";
     return !0;
   }
   document.getElementById(spanId).innerHTML =
-    "* Chỉ chấp nhận các ký tự A-z 0-9";
+    "* Chỉ chấp nhận các ký tự A-z 0-9 và dấu , ";
   return !1;
 };
 
